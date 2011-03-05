@@ -5,8 +5,11 @@ var keydown = 0;
 
 var position = 0;
 
+var history = new Array();
+
 $(document).ready(function() {
 	cursorInterval = setInterval(showCursor, 500);
+	history.push("");
 	
 	$(window).focus(function() {
 		if (!cursorInterval)
@@ -46,10 +49,10 @@ $(document).ready(function() {
 			if (position > 0)
 				position--;
 		} else if (code == 39) {	//right
-			if (position < $("#read").text().length)
+			if (position < historyCurrent().length)
 				position++;
 		} else if (code == 46 && keydown == 46) {	//delete
-			if (position < $("#read").text().length) {
+			if (position < historyCurrent().length) {
 				del(false);
 			}
 		} else if (code == 8) {	//backspace
@@ -58,7 +61,7 @@ $(document).ready(function() {
 				position--;
 			}
 		} else if (code > 31 && code < 127){
-			$("#read").append(String.fromCharCode(code));
+			historyCurrent(String.fromCharCode(code), true);
 			position++;
 		}
 
@@ -69,10 +72,23 @@ $(document).ready(function() {
 	});
 });
 
+function historyCurrent(text, append) {
+	if (text === undefined && append === undefined) {
+		return history.last();
+	} else {
+		if (!append) {
+			history.last(text);
+		} else {
+			history.last(history.last() + text);
+		}
+		$("#read").text(history.last());
+	}
+}
+
 function del(back) {
-	var text = $("#read").text();
+	var text = historyCurrent();
 	text = text.substring(0, position - (back ? 1 : 0)) + text.substring(position + (back ? 0 : 1));
-	$("#read").text(text);
+	historyCurrent(text, false);
 }
 
 function showCursor() {

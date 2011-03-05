@@ -67,3 +67,11 @@ std.callFunc = function(input) {
 		return "command not found";
 	}
 }
+
+Array.prototype.last = function(t) {
+	if (t !== undefined) {
+		this[this.length - 1] = t;
+	} else {
+		return this[this.length - 1];
+	}
+}

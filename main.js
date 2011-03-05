@@ -1,6 +1,3 @@
-var cursor = true;
-var cursorInterval;
-
 $(document).ready(function() {
 	$("#read").text("");
 });
@@ -8,7 +5,7 @@ $(document).ready(function() {
 function submit() {		
 	appendLine();
 	parseInput();
-	
+		
 	$("#read").text("");
 	$("terminal").attr({ scrollTop: $("terminal").attr("scrollHeight") });
 	$("#prefixin").text("user@jsbash:" + std.pwd() + "$");
