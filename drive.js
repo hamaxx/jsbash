@@ -1,25 +1,37 @@
-function Drive(type) {
-	this.type = type; //folder(d), file(-)
-	this.name = null;
-	this.content = null; //string, array
-	this.parent = null;
-	this.mod = 777;
-}
-
-Folder.prototype = new Drive("d");
-Folder.prototype.constructor=Folder;
-function Folder(name, parent) {
-	this.name = name;
-	this.parent = parent;
+function Folder(fname) {
+	this.fname = fname;
 	this.content = new Object();
+	this.mod = 777;
+	this.type = "d";
 }
 
-File.prototype = new Drive("-");
-File.prototype.constructor=File;
-function File(name, content) {
-	this.name = name;
+function File(fname, content) {
+	this.fname = fname;
 	this.content = content;
+	this.mod = 777;
+	this.type = "-";
 }
 
-var topFolder = new Folder("", null);
-var currentFolder = topFolder;
+var currentFolder = new Array();
+var topFolder = null;
+
+$(document).ready(function() {
+	//alert($.jStorage.get("drive"));
+	
+	try {
+		var t = JSON.parse(sessionStorage.getItem("drive"));
+		if (!t) throw "err"; 
+		topFolder = t;
+	} catch(e) {
+		//alert();
+		topFolder = new Folder("");
+	}
+	
+	currentFolder.push(topFolder);
+});
+
+function saveDrive() {
+	if (topFolder) {
+		sessionStorage.setItem("drive", JSON.stringify(topFolder));
+	}
+}

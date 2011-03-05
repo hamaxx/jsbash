@@ -9,19 +9,18 @@ std.help = function(par) {
 }
 
 std.pwd = function(par) {
-	var c = currentFolder;
-	var out = "/" + c.name;
-	while (c.parent != null && c.parent.parent != null) {
-		c = c.parent;
-		out = "/" + c.name + out;
+	var out = currentFolder.length == 1 ? "/" : "";
+	
+	for (var i = 1; i < currentFolder.length; i++) {
+		out += "/" + currentFolder[i].fname;
 	}
 	return out;
 }
 
 std.ls = function(par) {
 	var out = "";
-	for (var f in currentFolder.content) {
-		out += "<div>" + currentFolder.content[f].name + "</div>"
+	for (var f in currentFolder.last().content) {
+		out += "<div>" + currentFolder.last().content[f].fname + "</div>"
 	}
 	return out;
 }
@@ -29,7 +28,7 @@ std.ls = function(par) {
 std.mkdir = function(par) {
 	if (par.length < 2) return "error";
 	
-	currentFolder.content[par[1]] = new Folder(par[1], currentFolder);
+	currentFolder.last().content[par[1]] = new Folder(par[1]);
 	
 	return "";
 }
@@ -40,14 +39,23 @@ std.cd = function(par) {
 	}
 	
 	if (par[1] == "..") {
-		if (currentFolder.parent) {
-			currentFolder = currentFolder.parent;
+		if (currentFolder.length > 1) {
+			currentFolder.pop();
 		}
-	} else if (par[1] == ".") {
-		
-	} else if (currentFolder.content[par[1]] !== undefined && currentFolder.content[par[1]].type == "d") {
-		currentFolder = currentFolder.content[par[1]];
+		return "";
+	} 
+	
+	if (par[1] == ".") {
+		return "";
+	} 
+	
+	if (par[1].charAt(0) == '/') {
+		currentFolder = new Array();
 	}
+	
+	currentFolder.push(currentFolder.last().content[par[1]]);
+	
+	//alert(JSON.stringify(currentFolder));
 	
 	return "";
 }
@@ -55,14 +63,16 @@ std.cd = function(par) {
 std.touch = function(par) {	
 	if (par.length < 2) return "error";
 	
-	currentFolder.content[par[1]] = new File(par[1], "");
+	currentFolder.last().content[par[1]] = new File(par[1], "");
 	
 	return "";
 }
 
 callFunc = function(input) {
 	if (std[input[0]] !== undefined) {
-		return std[input[0]](input);
+		var out = std[input[0]](input);
+		saveDrive();
+		return out;
 	} else {
 		return "command not found";
 	}
