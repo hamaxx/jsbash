@@ -16,7 +16,7 @@ function submit() {
 function parseInput() {
 	var input = getCont();
 	if (input) {
-		print(std.callFunc(input.split(" ")));
+		print(callFunc(input.split(" ")));
 	}
 }
 

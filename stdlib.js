@@ -60,7 +60,7 @@ std.touch = function(par) {
 	return "";
 }
 
-std.callFunc = function(input) {
+callFunc = function(input) {
 	if (std[input[0]] !== undefined) {
 		return std[input[0]](input);
 	} else {

@@ -5,12 +5,12 @@ var keydown = 0;
 
 var position = 0;
 
-var history = new Array();
+var historyArr = new Array();
 var historyPos = 0;
 
 $(document).ready(function() {
 	cursorInterval = setInterval(showCursor, 500);
-	history.push("");
+	historyArr.push("");
 	
 	$(window).focus(function() {
 		if (!cursorInterval)
@@ -78,16 +78,16 @@ $(document).ready(function() {
 
 function returnPress() {
 		position = 0;
-		if (history.length < 2 || historyCurrent() != history.last()) {
+		if (historyArr.length < 2 || historyCurrent() != historyArr.last()) {
 			var str =  historyCurrent();
 			//alert(str);
-			history.last(str);
+			historyArr.last(str);
 		} 
 
 		submit();
 		
-		if (history.fromEnd(1) != history.last()) {
-			history.push("");
+		if (historyArr.fromEnd(1) != historyArr.last()) {
+			historyArr.push("");
 		}
 		
 		historyPos = 0;
@@ -96,21 +96,21 @@ function returnPress() {
 
 function historyCurrent(text, append) {
 	if (text === undefined) {
-		return history.fromEnd(historyPos);
+		return historyArr.fromEnd(historyPos);
 	} else {
 		if (!append) {
-			history.fromEnd(historyPos, text);
+			historyArr.fromEnd(historyPos, text);
 		} else {
-			history.fromEnd(historyPos, history.fromEnd(historyPos) + text);
+			historyArr.fromEnd(historyPos, historyArr.fromEnd(historyPos) + text);
 		}
-		$("#read").text(history.fromEnd(historyPos));
+		$("#read").text(historyArr.fromEnd(historyPos));
 	}
 }
 
 function historyMove(up) {
 	if (up) {
 		historyPos++;
-		historyPos = historyPos > history.length - 1 ? history.length - 1 : historyPos;
+		historyPos = historyPos > historyArr.length - 1 ? historyArr.length - 1 : historyPos;
 	} else {
 		historyPos--;
 		historyPos = historyPos < 0 ? 0 : historyPos;
