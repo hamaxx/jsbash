@@ -1,15 +1,20 @@
+var cursor = true;
+var cursorInterval;
+
 $(document).ready(function() {
-	$("#inform").submit(function (e) {		
-		appendLine();
-		parseInput();
-		
-		$("#read").val("");
-		$("terminal").attr({ scrollTop: $("terminal").attr("scrollHeight") });
-		$("#prefixin").text("user@jsbash:" + std.pwd() + "$");
-		
-		return false;
-	});
+	$("#read").text("");
 });
+
+function submit() {		
+	appendLine();
+	parseInput();
+	
+	$("#read").text("");
+	$("terminal").attr({ scrollTop: $("terminal").attr("scrollHeight") });
+	$("#prefixin").text("user@jsbash:" + std.pwd() + "$");
+	
+	return false;
+}
 
 function parseInput() {
 	var input = getCont();
@@ -23,7 +28,7 @@ function getPrefix() {
 }
 
 function getCont() {
-	return $("#read").val();
+	return $("#read").text();
 }
 
 function appendLine() {

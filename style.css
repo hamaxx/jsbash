@@ -33,6 +33,8 @@ prefix {
 inputholder {
 	display: block;
 	overflow: hidden;
+	height: 17px;
+	background-repeat: no-repeat;
 }
 
 input#read {
@@ -42,4 +44,5 @@ input#read {
 	border: 0;
 	font-size: 14px;
 	font-family: 'Courier New', Courier, monospace;
+	
 }
