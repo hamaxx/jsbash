@@ -1,0 +1,45 @@
+body {
+	font-size: 14px;
+	font-family: 'Courier New', Courier, monospace;
+}
+
+terminal {
+	border: 1px solid #ccc;
+	width: 700px;
+	height: 500px;
+	margin: 20px auto;
+	display: block;
+	overflow: auto;
+	padding: 5px;
+}
+
+output {
+	width: 100%;
+	display: block;
+}
+
+inputfield {
+	display: block;
+	clear: left;
+	width: 100%;
+}
+
+prefix {
+	display: block;
+	float: left;
+	margin-right: 5px;
+}
+
+inputholder {
+	display: block;
+	overflow: hidden;
+}
+
+input#read {
+	width: 100%;
+	margin:0;
+	padding:0;
+	border: 0;
+	font-size: 14px;
+	font-family: 'Courier New', Courier, monospace;
+}
