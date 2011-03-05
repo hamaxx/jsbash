@@ -50,12 +50,21 @@ std.cd = function(par) {
 	} 
 	
 	if (par[1].charAt(0) == '/') {
-		currentFolder = new Array();
+		currentFolder = [topFolder];
+		par[1] = par[1].substring(1);
 	}
 	
-	currentFolder.push(currentFolder.last().content[par[1]]);
-	
-	//alert(JSON.stringify(currentFolder));
+	if (par[1]) {
+		var arr = par[1].split("/");
+		for (var i = 0; i < arr.length; i++) {
+			var c = currentFolder.last().content[arr[i]];
+			if (c) {
+				currentFolder.push(c);
+			} else {
+				return "error";
+			}
+		}
+	}
 	
 	return "";
 }
