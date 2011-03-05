@@ -6,6 +6,7 @@ var keydown = 0;
 var position = 0;
 
 var history = new Array();
+var historyPos = 0;
 
 $(document).ready(function() {
 	cursorInterval = setInterval(showCursor, 500);
@@ -43,14 +44,17 @@ $(document).ready(function() {
 		var code = (e.keyCode ? e.keyCode : e.which);
 
 		if(code == 13) {	//return
-			submit();
-			position = 0;
+			returnPress();
 		} else if (code == 37) {	//left
 			if (position > 0)
 				position--;
 		} else if (code == 39) {	//right
 			if (position < historyCurrent().length)
 				position++;
+		} else if (code == 38) {	//up
+			historyMove(true);
+		} else if (code == 40) {	//down
+			historyMove(false);
 		} else if (code == 46 && keydown == 46) {	//delete
 			if (position < historyCurrent().length) {
 				del(false);
@@ -72,17 +76,47 @@ $(document).ready(function() {
 	});
 });
 
+function returnPress() {
+		position = 0;
+		if (history.length < 2 || historyCurrent() != history.last()) {
+			var str =  historyCurrent();
+			//alert(str);
+			history.last(str);
+		} 
+
+		submit();
+		
+		if (history.fromEnd(1) != history.last()) {
+			history.push("");
+		}
+		
+		historyPos = 0;
+		historyCurrent("");
+}
+
 function historyCurrent(text, append) {
-	if (text === undefined && append === undefined) {
-		return history.last();
+	if (text === undefined) {
+		return history.fromEnd(historyPos);
 	} else {
 		if (!append) {
-			history.last(text);
+			history.fromEnd(historyPos, text);
 		} else {
-			history.last(history.last() + text);
+			history.fromEnd(historyPos, history.fromEnd(historyPos) + text);
 		}
-		$("#read").text(history.last());
+		$("#read").text(history.fromEnd(historyPos));
 	}
+}
+
+function historyMove(up) {
+	if (up) {
+		historyPos++;
+		historyPos = historyPos > history.length - 1 ? history.length - 1 : historyPos;
+	} else {
+		historyPos--;
+		historyPos = historyPos < 0 ? 0 : historyPos;
+	}
+	
+	$("#read").text(historyCurrent());
 }
 
 function del(back) {
