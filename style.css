@@ -4,7 +4,9 @@ body {
 }
 
 terminal {
-	border: 1px solid #ccc;
+	border: 2px solid #ccc;
+	background: #222;
+	color: #eee;
 	width: 700px;
 	height: 500px;
 	margin: 20px auto;
