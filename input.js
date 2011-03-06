@@ -65,7 +65,8 @@ $(document).ready(function() {
 				position--;
 			}
 		} else if (code > 31 && code < 127){
-			historyCurrent(String.fromCharCode(code), true);
+			//historyCurrent(String.fromCharCode(code), true);
+			insert(String.fromCharCode(code));
 			position++;
 		}
 
@@ -122,6 +123,12 @@ function historyMove(up) {
 function del(back) {
 	var text = historyCurrent();
 	text = text.substring(0, position - (back ? 1 : 0)) + text.substring(position + (back ? 0 : 1));
+	historyCurrent(text, false);
+}
+
+function insert(str) {
+	var text = historyCurrent();
+	text = text.substring(0, position) + str + text.substring(position);
 	historyCurrent(text, false);
 }
 
