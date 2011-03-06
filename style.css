@@ -48,3 +48,11 @@ input#read {
 	font-family: 'Courier New', Courier, monospace;
 	
 }
+
+inputfield span {
+	margin-left: 10px;
+}
+
+.folder {
+	color: #66bbff;
+}

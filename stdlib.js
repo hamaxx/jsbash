@@ -1,88 +1,83 @@
-var std = new Object();
-
-std.help = function(par) {
-	var out = "";
-	for (var f in std) {
-		out += "<div>" + f + "</div>"
-	}
-	std.echo(out);
-	return true;
-}
-
-std.pwd = function(par) {
-	std.echo(pwd());
-	return true;
-}
-
-std.ls = function(par) {
-	var out = "";
-	for (var f in currentFolder.last().content) {
-		out += "<div>" + currentFolder.last().content[f].fname + "</div>"
-	}
-	std.echo(out);
-	return true;
-}
-
-std.mkdir = function(par) {
-	if (par.length < 2) return false;
-	
-	currentFolder.last().content[par[1]] = new Folder(par[1]);
-	
-	return true;
-}
-
-std.cd = function(par) {
-	if (par.length < 2) {
-		return false;
-	}
-	
-	if (par[1] == "..") {
-		if (currentFolder.length > 1) {
-			currentFolder.pop();
+var bin = new FF("d", "bin", new function() {
+	this.help = new FF("-", "help", function(par) {
+		var out = "";
+		for (var f in std) {
+			out += "<div>" + f + "</div>"
 		}
-		return false;
-	} 
-	
-	if (par[1] == ".") {
-		return false;
-	} 
-	
-	if (par[1].charAt(0) == '/') {
-		currentFolder = [topFolder];
-		par[1] = par[1].substring(1);
-	}
-	
-	if (par[1]) {
-		var arr = par[1].split("/");
-		for (var i = 0; i < arr.length; i++) {
-			var c = currentFolder.last().content[arr[i]];
-			if (c) {
-				currentFolder.push(c);
-			} else {
-				return false;
+		bin.content.echo.content(out);
+		return true;
+	});
+
+	this.pwd = new FF("-", "pwd", function(par) {
+		bin.content.echo.content(pwd());
+		return true;
+	});
+
+	this.ls = new FF("-", "ls", function(par) {
+		var out = "";
+		
+		if (par.length > 1 && par[1] == "-l") {
+			for (var f in currentFolder.last().content) {
+				var ff = currentFolder.last().content[f];
+				out += "<div>" + FF.ffMod(ff) + " user jsbash " + FF.ffSize(ff) + " " + FF.ffDate(ff) + " " + ff.fname + "</div>";
+			}
+		} else {
+			for (var f in currentFolder.last().content) {
+				var ff = currentFolder.last().content[f];
+				out += "<span " + (ff.type == "d" ? 'class=\'folder\'' : '') + " >" + ff.fname + "</span>"
 			}
 		}
-	}
-	
-	return true;
-}
+		bin.content.echo.content(out);
+		return true;
+	});
 
-std.touch = function(par) {	
-	if (par.length < 2) return false;
-	
-	currentFolder.last().content[par[1]] = new File(par[1], "");
-	
-	return true;
-}
+	this.mkdir = new FF("-", "mkdir", function(par) {
+		if (par.length < 2) return false;
 
-std.echo = function(par) {
-	if (par instanceof Array) {
-		stdio += par[1];
-	} else {
-		stdio += par;
-	}
-	return true;
-}
+		currentFolder.last().content[par[1]] = new FF("d", par[1]);
+
+		return true;
+	});
+
+	this.cd = new FF("-", "cd", function(par) {
+		if (par.length < 2) {
+			return false;
+		}
+		
+		if(par[1].match(/^[a-zA-Z]/)) {
+			par[1] = "./" + par[1];
+		}
+
+		var tmp = gotoFolder(par[1], currentFolder);
+		if (tmp)
+			currentFolder = tmp;
+		else
+			return false;
+			
+		return true;
+	});
+
+	this.touch = new FF("-", "touch", function(par) {
+		if (par.length < 2) return false;
+
+		currentFolder.last().content[par[1]] = new FF("-", par[1], "");
+
+		return true;
+	});
+
+	this.echo = new FF("-", "echo", function(par) {
+		if (par instanceof Array) {
+			stdio += par[1];
+		} else {
+			stdio += par;
+		}
+		return true;
+	});
+});
+
+$(document).ready(function() {
+	topFolder.content["bin"] = bin;
+});
 
 var stdio = "";
 function parseInput() {
@@ -94,9 +89,23 @@ function parseInput() {
 	stdio = "";
 }
 
+function gotoFile(path) {
+	var f = new Array();
+	for (var i = 0; i < currentFolder.length; i++)
+		f[i] = currentFolder[i];
+		
+	f = gotoFolder(path, f, true);
+	if (!f) return false;
+	
+	f = f.last().content[path.split("/").last()];
+
+	return f;
+}
+
 function callFunc(input) {
-	if (std[input[0]] !== undefined) {
-		if (!std[input[0]](input)) std.echo("error");
+	var f = gotoFile(input[0]);
+	if (f && $.isFunction(f.content)) {
+		if (!f.content(input)) bin.content.echo.content("error");
 		saveDrive();
 	} else {
 		stdio += "command not found";
