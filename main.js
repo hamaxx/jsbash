@@ -1,5 +1,7 @@
 $(document).ready(function() {
 	$("#read").text("");
+	
+	new Terminal(new BashTerminal(), $("#read")).start();
 });
 
 function submit() {		

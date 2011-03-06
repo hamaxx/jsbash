@@ -16,7 +16,7 @@ FF.ffDate = function(ff) {
 }
 
 FF.ffSize = function (ff) {
-	return "???";
+	return JSON.stringify(ff).length;
 }
 
 FF.ffMod = function (ff) {
