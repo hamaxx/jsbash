@@ -96,7 +96,14 @@ var bin = new FF("d", "bin", new function() {
 });
 
 $(document).ready(function() {
-	topFolder.content["bin"] = bin;
+	if (!topFolder.content["bin"]) {
+		topFolder.content["bin"] = bin;
+	} else {
+		var thebin = topFolder.content["bin"];
+		for (var f in bin.content) {
+			thebin.content[f] = bin.content[f];
+		}
+	}
 });
 
 var stdio = "";
