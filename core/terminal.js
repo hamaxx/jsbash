@@ -93,7 +93,7 @@ var Terminal = function(controller, line, out) {
 	
 	this.start = function() {
 		readOn = true;
-		onFocus();
+		//onFocus();
 	}	
 
 	this.changeText = function(text) {
@@ -131,7 +131,8 @@ var Terminal = function(controller, line, out) {
 		}
 	}
 	
-	cursorInterval = setInterval(showCursor, 500);
+	//cursorInterval = setInterval(showCursor, 500);
+	$(window).focus();
 	controller.init(this);
 	
 }

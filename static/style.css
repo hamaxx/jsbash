@@ -1,6 +1,7 @@
 body {
 	font-size: 14px;
 	font-family: 'Courier New', Courier, monospace;
+	margin: 0;
 }
 
 header {
@@ -15,23 +16,29 @@ header a {
 	text-decoration: none;
 	font-weight: bold;
 	font-size: 1.2em;
-	margin-top: 40px;
+	margin-top: 30px;
 }
 
 terminal {
+	display: block;
+	width: 690px;
+	height: 490px;
+	background: #222;
+	color: #eee;
+	padding: 5px;
+}
+
+#frameTerminal {
 	border-top: 2px solid #ccc;
 	border-left: 2px solid #ccc;
 	border-bottom: 2px solid #444;
 	border-right: 2px solid #444;
-	
-	background: #222;
-	color: #eee;
 	width: 700px;
 	height: 500px;
-	margin: 10px auto 20px auto;
+	margin: 0 auto 20px auto;
 	display: block;
 	overflow: auto;
-	padding: 5px;
+	padding: 0;
 }
 
 output {
@@ -104,4 +111,5 @@ input {
 	border-left: 2px solid #ccc;
 	border-bottom: 2px solid #444;
 	border-right: 2px solid #444;
+	cursor: pointer;
 }

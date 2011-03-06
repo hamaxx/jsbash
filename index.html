@@ -6,12 +6,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link rel="stylesheet" type="text/css" href="static/style.css" />
 	<script type="text/javascript" src="static/jquery.js"></script>
-	<script type="text/javascript" src="core/functions.js"></script>
-	<script type="text/javascript" src="core/drive.js"></script>
-	<script type="text/javascript" src="core/stdlib.js"></script>
 	<script type="text/javascript" src="main.js"></script>
-	<script type="text/javascript" src="core/terminal.js"></script>
-	<script type="text/javascript" src="core/bash-terminal.js"></script>
 </head>
 
 <body>
@@ -19,13 +14,9 @@
 		<img src="img/logo.png" />
 		<a target="_blank" href="https://github.com/hamaxx/jsbash">github</a>
 	</header>
-	<content>
-		<terminal>
-			<output></output>
-			<inputfield id="lastline">
-				<inputholder></inputholder>
-			</inputfield>
-		</terminal>
+	
+	<content>	
+		<iframe id="frameTerminal" frameborder='0' src="terminal.html"></iframe>
 
 		<menu>
 			<input type="button" id="resetAll" value="Reset File System" />

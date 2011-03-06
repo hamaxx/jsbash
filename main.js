@@ -1,9 +1,4 @@
-var mainTerminal = null;
-
 $(document).ready(function() {
-	mainTerminal = new Terminal(new BashTerminal(), $("#lastline"), $("output"));
-	mainTerminal.start();
-	
 	$("#resetAll").click(function() {
 		if (confirm("Are you sure you want to delete everything?")) {
 			localStorage.setItem("drive", "");
@@ -12,7 +7,7 @@ $(document).ready(function() {
 	});
 	
 	$("#saveDrive").click(function() {
-		mainTerminal.stop();
+		//mainTerminal.stop();
 		
 		var store = localStorage.getItem("drive");
 		store = store ? store : "No modifications."
@@ -30,12 +25,12 @@ $(document).ready(function() {
 		
 		$("#floatBackground").click(function() {
 			$(this).remove();
-			mainTerminal.start();
+			//mainTerminal.start();
 		});
 	});
 	
 	$("#loadDrive").click(function() {
-		mainTerminal.stop();
+		//mainTerminal.stop();
 		
 		var text = $("<textarea id='floatText'></textarea>");
 		var back = $("<div id='floatBackground'></div>");
@@ -62,7 +57,7 @@ $(document).ready(function() {
 		
 		$("#floatBackground").click(function() {
 			$(this).remove();
-			mainTerminal.start();
+			//mainTerminal.start();
 		});
 	});
 	
