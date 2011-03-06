@@ -3,6 +3,21 @@ body {
 	font-family: 'Courier New', Courier, monospace;
 }
 
+header {
+	display: block;
+	width: 700px;
+	margin: 0 auto;
+}
+
+header a {
+	color: #222;
+	float: right;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 1.2em;
+	margin-top: 40px;
+}
+
 terminal {
 	border-top: 2px solid #ccc;
 	border-left: 2px solid #ccc;
@@ -13,7 +28,7 @@ terminal {
 	color: #eee;
 	width: 700px;
 	height: 500px;
-	margin: 50px auto 20px auto;
+	margin: 10px auto 20px auto;
 	display: block;
 	overflow: auto;
 	padding: 5px;
