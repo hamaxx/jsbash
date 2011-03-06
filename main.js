@@ -8,16 +8,9 @@ function submit() {
 		
 	$("#read").text("");
 	$("terminal").attr({ scrollTop: $("terminal").attr("scrollHeight") });
-	$("#prefixin").text("user@jsbash:" + std.pwd() + "$");
+	$("#prefixin").text("user@jsbash:" + pwd() + "$");
 	
 	return false;
-}
-
-function parseInput() {
-	var input = getCont();
-	if (input) {
-		print(callFunc(input.split(" ")));
-	}
 }
 
 function getPrefix() {

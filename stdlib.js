@@ -5,16 +5,13 @@ std.help = function(par) {
 	for (var f in std) {
 		out += "<div>" + f + "</div>"
 	}
-	return out;
+	std.echo(out);
+	return true;
 }
 
 std.pwd = function(par) {
-	var out = currentFolder.length == 1 ? "/" : "";
-	
-	for (var i = 1; i < currentFolder.length; i++) {
-		out += "/" + currentFolder[i].fname;
-	}
-	return out;
+	std.echo(pwd());
+	return true;
 }
 
 std.ls = function(par) {
@@ -22,31 +19,32 @@ std.ls = function(par) {
 	for (var f in currentFolder.last().content) {
 		out += "<div>" + currentFolder.last().content[f].fname + "</div>"
 	}
-	return out;
+	std.echo(out);
+	return true;
 }
 
 std.mkdir = function(par) {
-	if (par.length < 2) return "error";
+	if (par.length < 2) return false;
 	
 	currentFolder.last().content[par[1]] = new Folder(par[1]);
 	
-	return "";
+	return true;
 }
 
 std.cd = function(par) {
 	if (par.length < 2) {
-		return "error";
+		return false;
 	}
 	
 	if (par[1] == "..") {
 		if (currentFolder.length > 1) {
 			currentFolder.pop();
 		}
-		return "";
+		return false;
 	} 
 	
 	if (par[1] == ".") {
-		return "";
+		return false;
 	} 
 	
 	if (par[1].charAt(0) == '/') {
@@ -61,29 +59,48 @@ std.cd = function(par) {
 			if (c) {
 				currentFolder.push(c);
 			} else {
-				return "error";
+				return false;
 			}
 		}
 	}
 	
-	return "";
+	return true;
 }
 
 std.touch = function(par) {	
-	if (par.length < 2) return "error";
+	if (par.length < 2) return false;
 	
 	currentFolder.last().content[par[1]] = new File(par[1], "");
 	
-	return "";
+	return true;
+}
+
+std.echo = function(par) {
+	if (par instanceof Array) {
+		stdio += par[1];
+	} else {
+		stdio += par;
+	}
+	return true;
+}
+
+var stdio = "";
+
+function parseInput() {
+	var input = getCont();
+	if (input) {
+		callFunc(input.split(" "));
+		print(stdio);
+	}
+	stdio = "";
 }
 
 callFunc = function(input) {
 	if (std[input[0]] !== undefined) {
-		var out = std[input[0]](input);
+		if (!std[input[0]](input)) std.echo("error");
 		saveDrive();
-		return out;
 	} else {
-		return "command not found";
+		stdio += "command not found";
 	}
 }
 

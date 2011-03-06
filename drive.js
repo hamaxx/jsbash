@@ -30,6 +30,15 @@ $(document).ready(function() {
 	currentFolder.push(topFolder);
 });
 
+function pwd() {
+	var out = currentFolder.length == 1 ? "/" : "";
+	
+	for (var i = 1; i < currentFolder.length; i++) {
+		out += "/" + currentFolder[i].fname;
+	}
+	return out;
+}
+
 function saveDrive() {
 	if (topFolder) {
 		sessionStorage.setItem("drive", JSON.stringify(topFolder));
