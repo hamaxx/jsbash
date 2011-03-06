@@ -7,8 +7,6 @@ $(document).ready(function() {
 	});
 	
 	$("#saveDrive").click(function() {
-		//mainTerminal.stop();
-		
 		var store = localStorage.getItem("drive");
 		store = store ? store : "No modifications."
 		
@@ -25,13 +23,10 @@ $(document).ready(function() {
 		
 		$("#floatBackground").click(function() {
 			$(this).remove();
-			//mainTerminal.start();
 		});
 	});
 	
 	$("#loadDrive").click(function() {
-		//mainTerminal.stop();
-		
 		var text = $("<textarea id='floatText'></textarea>");
 		var back = $("<div id='floatBackground'></div>");
 		var load = $('<input type="button" id="loadDriveString" value="Load file system" />');
@@ -57,7 +52,6 @@ $(document).ready(function() {
 		
 		$("#floatBackground").click(function() {
 			$(this).remove();
-			//mainTerminal.start();
 		});
 	});
 	

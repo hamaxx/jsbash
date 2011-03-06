@@ -64,6 +64,7 @@ var Terminal = function(controller, line, out) {
 	});
 	
 	var onFocus = function() {
+		showCursor();
 		if (!cursorInterval)
 			cursorInterval = setInterval(showCursor, 500);
 	}
@@ -71,6 +72,7 @@ var Terminal = function(controller, line, out) {
 	var onBlur = function() {	
 		clearInterval(cursorInterval);
 		cursorInterval = false;
+		cursor = false;
 		input().css("background-image", "url('img/cursor-blur.png')");
 	}
 	
@@ -93,6 +95,7 @@ var Terminal = function(controller, line, out) {
 	
 	this.start = function() {
 		readOn = true;
+		$(window).focus();
 		//onFocus();
 	}	
 
@@ -130,9 +133,7 @@ var Terminal = function(controller, line, out) {
 			input().css("background-image", "url('img/cursor-focus.png')");
 		}
 	}
-	
-	//cursorInterval = setInterval(showCursor, 500);
+
 	$(window).focus();
-	controller.init(this);
-	
+	controller.init(this);	
 }
