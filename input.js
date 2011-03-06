@@ -118,6 +118,7 @@ function historyMove(up) {
 	}
 	
 	$("#read").text(historyCurrent());
+	position = historyCurrent().length;
 }
 
 function del(back) {
