@@ -85,7 +85,6 @@ std.echo = function(par) {
 }
 
 var stdio = "";
-
 function parseInput() {
 	var input = getCont();
 	if (input) {
@@ -95,7 +94,7 @@ function parseInput() {
 	stdio = "";
 }
 
-callFunc = function(input) {
+function callFunc(input) {
 	if (std[input[0]] !== undefined) {
 		if (!std[input[0]](input)) std.echo("error");
 		saveDrive();
