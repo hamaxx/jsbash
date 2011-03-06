@@ -1,3 +1,5 @@
+//stop, start, changeText, echo, submit
+
 var Terminal = function(controller, line, out) {
 
 	var cursor = true;
@@ -5,16 +7,14 @@ var Terminal = function(controller, line, out) {
 	var ctrl = false;
 	var keydown = 0;
 	var readOn = false;
+	var dontHide = false;
 		
 	$(window).focus(function() {
-		if (!cursorInterval)
-			cursorInterval = setInterval(showCursor, 500);
+		onFocus();
 	});
 
 	$(window).blur(function(){
-		clearInterval(cursorInterval);
-		cursorInterval = false;
-		input().css("background-image", "url('img/cursor-blur.png')");
+		onBlur();
 	});
 
 	$(window).keyup(function(e) {
@@ -34,8 +34,8 @@ var Terminal = function(controller, line, out) {
 
 	$(window).keypress(function(e) {
 		if (!readOn) return true;
-	
 		if (ctrl) return true;
+		stopBlink();
 	
 		var code = (e.keyCode ? e.keyCode : e.which);
 
@@ -62,6 +62,25 @@ var Terminal = function(controller, line, out) {
 	
 		return false;
 	});
+	
+	var onFocus = function() {
+		if (!cursorInterval)
+			cursorInterval = setInterval(showCursor, 500);
+	}
+
+	var onBlur = function() {	
+		clearInterval(cursorInterval);
+		cursorInterval = false;
+		input().css("background-image", "url('img/cursor-blur.png')");
+	}
+	
+	var stopBlink = function() {
+		showCursor();
+		clearTimeout(dontHide);
+		dontHide = setTimeout(function() {
+			dontHide = false;
+		}, 500);
+	};
 
 	var input = function() {
 		return line.find("inputholder");
@@ -69,10 +88,12 @@ var Terminal = function(controller, line, out) {
 	
 	this.stop = function() {
 		readOn = false;
+		onBlur();
 	}
 	
 	this.start = function() {
 		readOn = true;
+		onFocus();
 	}	
 
 	this.changeText = function(text) {
@@ -100,8 +121,10 @@ var Terminal = function(controller, line, out) {
 
 	var showCursor = function() {
 		if (cursor) {
-			cursor = false;
-			input().css("background-image", "none");
+			if (dontHide === false) {
+				cursor = false;
+				input().css("background-image", "none");
+			}
 		} else {
 			cursor = true;
 			input().css("background-image", "url('img/cursor-focus.png')");
