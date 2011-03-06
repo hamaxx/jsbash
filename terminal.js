@@ -1,9 +1,14 @@
-var Terminal = function(controller, input) {	
+var Terminal = function(controller, line, out) {
+
 	var cursor = true;
 	var cursorInterval = false;
 	var ctrl = false;
 	var keydown = 0;
-
+	
+	var input = function() {
+		return line.find("inputholder");
+	}
+	
 	this.start = function() {
 		cursorInterval = setInterval(showCursor, 500);
 	
@@ -17,7 +22,7 @@ var Terminal = function(controller, input) {
 		$(window).blur(function(){
 			clearInterval(cursorInterval);
 			cursorInterval = false;
-			input.css("background-image", "url('img/cursor-blur.png')");
+			input().css("background-image", "url('img/cursor-blur.png')");
 		});
 	
 		$(window).keyup(function(e) {
@@ -59,23 +64,40 @@ var Terminal = function(controller, input) {
 			}
 		
 			pos = 8 * controller.cursorPosition();
-			input.css("background-position", pos + "px 0");
+			input().css("background-position", pos + "px 0");
 		
 			return false;
 		});
 	}
 	
 	this.changeText = function(text) {
-		input.text(text);
+		input().text(text);
+	}
+	
+	this.echo = function(str, prepend) {
+		if (!prepend) {
+			var l = $("<inputfield>" + str + "</inputfield>");	
+			out.append(l);
+		} else {
+			line.prepend(str);
+		}
+	}
+	
+	this.submit = function() {
+		input().css("background-image", "none");
+		out.append("<inputfield>" + line.html() + "</inputfield>");
+		line.html("<inputholder />");
+
+		$("terminal").attr({ scrollTop: $("terminal").attr("scrollHeight") });	//FIX
 	}
 
 	var showCursor = function() {
 		if (cursor) {
 			cursor = false;
-			input.css("background-image", "none");
+			input().css("background-image", "none");
 		} else {
 			cursor = true;
-			input.css("background-image", "url('img/cursor-focus.png')");
+			input().css("background-image", "url('img/cursor-focus.png')");
 		}
 	}
 }

@@ -80,11 +80,10 @@ $(document).ready(function() {
 });
 
 var stdio = "";
-function parseInput() {
-	var input = getCont();
+function parseInput(input) {
 	if (input) {
 		callFunc(input.split(" "));
-		print(stdio);
+		mainTerminal.echo(stdio);
 	}
 	stdio = "";
 }
