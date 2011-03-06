@@ -1,0 +1,71 @@
+body {
+	font-size: 14px;
+	font-family: 'Courier New', Courier, monospace;
+}
+
+terminal {
+	border: 2px solid #ccc;
+	background: #222;
+	color: #eee;
+	width: 700px;
+	height: 500px;
+	margin: 20px auto;
+	display: block;
+	overflow: auto;
+	padding: 5px;
+}
+
+output {
+	width: 100%;
+	display: block;
+}
+
+inputfield {
+	display: block;
+	clear: left;
+	width: 100%;
+}
+
+prefix {
+	display: block;
+	float: left;
+	margin-right: 5px;
+}
+
+inputholder {
+	display: block;
+	overflow: hidden;
+	height: 17px;
+	background-repeat: no-repeat;
+}
+
+inputfield span {
+	margin-left: 10px;
+}
+
+.folder {
+	color: #66bbff;
+}
+
+#floatBackground {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+}
+
+#floatText {
+	display: block;
+	width: 500px;
+	height: 300px;
+	margin: 100px auto 0 auto;
+}
+
+#loadDriveString {
+	display: block;
+	width: 200px;
+	height: 30px;
+	margin: 20px auto;
+}
