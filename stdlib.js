@@ -1,7 +1,7 @@
 var bin = new FF("d", "bin", new function() {
 	this.help = new FF("-", "help", function(par) {
 		var out = "";
-		for (var f in std) {
+		for (var f in bin.content) {
 			out += "<div>" + f + "</div>"
 		}
 		bin.content.echo.content(out);
@@ -57,15 +57,19 @@ var bin = new FF("d", "bin", new function() {
 		return true;
 	});
 
-	this.touch = new FF("-", "touch", function(par) {
+	this.touch = new FF("-", "touch", function(par, cont) {
 		if (par.length < 2) return false;
+		
+		cont = cont ? cont : "";
 
-		currentFolder.last().content[par[1]] = new FF("-", par[1], "");
+		currentFolder.last().content[par[1]] = new FF("-", par[1], cont);
 
 		return true;
 	});
 
 	this.echo = new FF("-", "echo", function(par) {
+		if (par.length < 2) return false;
+		
 		if (par instanceof Array) {
 			stdio += par[1];
 		} else {
@@ -73,6 +77,22 @@ var bin = new FF("d", "bin", new function() {
 		}
 		return true;
 	});
+	
+	this.cat = new FF("-", "cat", function(par) {
+		if (par.length < 2) return false;
+
+		if(par[1].match(/^[a-zA-Z]/)) {
+			par[1] = "./" + par[1];
+		}
+		
+		var f = gotoFile(par[1]);
+		if (f && f.type == "-") {
+			bin.content.echo.content(f.content);
+			return true;
+		}
+		return false;
+	});
+	
 });
 
 $(document).ready(function() {
@@ -81,8 +101,23 @@ $(document).ready(function() {
 
 var stdio = "";
 function parseInput(input) {
-	if (input) {
-		callFunc(input.split(" "));
+	input = input.replace(/ {2,}/g,' ');
+	
+	var out = false;
+	input = input.split(">");
+	if (input.length > 1) {
+		out = input[1].match(/^\s?(.*)\s?$/)[1];
+	}
+	input = input[0].split(" ");
+	
+	if (input.length) {
+		callFunc(input);
+		
+		if (out) {
+			bin.content.touch.content(["touch", out], stdio);
+			stdio = "";
+		}
+		
 		mainTerminal.echo(stdio);
 	}
 	stdio = "";

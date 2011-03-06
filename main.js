@@ -5,9 +5,3 @@ $(document).ready(function() {
 	mainTerminal.start();
 });
 
-function submit() {		
-	$("#prefixin").text("user@jsbash:" + pwd() + "$");
-	
-	return false;
-}
-

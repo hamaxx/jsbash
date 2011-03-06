@@ -1,3 +1,6 @@
+var currentFolder = new Array();
+var topFolder = null;
+
 function FF(type, fname, content) {
 	this.fname = fname;
 	this.content = content ? content : new Object();
@@ -22,9 +25,6 @@ FF.ffSize = function (ff) {
 FF.ffMod = function (ff) {
 	return ff.type + "rwxrwxrwx";
 }
-
-var currentFolder = new Array();
-var topFolder = null;
 
 $(document).ready(function() {
 	try {
