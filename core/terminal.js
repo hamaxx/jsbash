@@ -30,6 +30,13 @@ var Terminal = function(controller, line, out) {
 		if(code == 17) {
 			ctrl = true;
 		}
+		
+		if (isChrome() && code in {37:"",38:"",39:"",40:"",46:"",8:""}) {
+			var press = jQuery.Event("keypress");
+			press.ctrlKey = ctrl;
+			press.which = code;
+			$(window).trigger(press);
+		}
 	});
 
 	$(window).keypress(function(e) {

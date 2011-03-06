@@ -15,9 +15,14 @@ Array.prototype.fromEnd = function(idx, t) {
 }
 
 function html5_storage() {
-  try {
-    return 'localStorage' in window && window['localStorage'] !== null;
-  } catch (e) {
-    return false;
-  }
+	try {
+		return 'localStorage' in window && window['localStorage'] !== null;
+	} catch (e) {
+		return false;
+	}
+}
+
+
+function isChrome() {
+	return Boolean(window.chrome);
 }
