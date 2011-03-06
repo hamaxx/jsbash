@@ -85,11 +85,3 @@ function saveDrive() {
 		localStorage.setItem("drive", JSON.stringify(topFolder));
 	}
 }
-
-function html5_storage() {
-  try {
-    return 'localStorage' in window && window['localStorage'] !== null;
-  } catch (e) {
-    return false;
-  }
-}

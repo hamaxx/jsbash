@@ -153,19 +153,3 @@ function callFunc(input) {
 		stdio += "command not found";
 	}
 }
-
-Array.prototype.last = function(t) {
-	if (t !== undefined) {
-		this[this.length - 1] = t;
-	} else {
-		return this[this.length - 1];
-	}
-}
-
-Array.prototype.fromEnd = function(idx, t) {
-	if (t !== undefined) {
-		this[this.length - (idx + 1)] = t;
-	} else {
-		return this[this.length - (idx + 1)];
-	}
-}
