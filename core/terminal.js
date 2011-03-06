@@ -108,7 +108,7 @@ var Terminal = function(controller, line, out) {
 			line.prepend(str);
 		}
 		
-		out.parent().attr({ scrollTop: $("terminal").attr("scrollHeight") });
+		out.parent().attr({ scrollTop: out.parent().attr("scrollHeight") });
 	}
 	
 	this.submit = function() {
@@ -116,7 +116,7 @@ var Terminal = function(controller, line, out) {
 		out.append("<inputfield>" + line.html() + "</inputfield>");
 		line.html("<inputholder />");
 
-		out.parent().attr({ scrollTop: $("terminal").attr("scrollHeight") });
+		out.parent().attr({ scrollTop: out.parent().attr("scrollHeight") });
 	}
 
 	var showCursor = function() {
