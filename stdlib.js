@@ -101,16 +101,17 @@ $(document).ready(function() {
 
 var stdio = "";
 function parseInput(input) {
-	input = input.replace(/ {2,}/g,' ');
-	
-	var out = false;
-	input = input.split(">");
-	if (input.length > 1) {
-		out = input[1].match(/^\s?(.*)\s?$/)[1];
-	}
-	input = input[0].split(" ");
-	
 	if (input.length) {
+		input = input.replace(/ {2,}/g,' ');
+	
+		var out = false;
+		input = input.split(">");
+		if (input.length > 1) {
+			out = input[1].match(/^\s?(.*)\s?$/)[1];
+		}
+		input = input[0].split(" ");
+	
+	
 		callFunc(input);
 		
 		if (out) {
