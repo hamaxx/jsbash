@@ -71,7 +71,7 @@ var BashTerminal = function() {
 	
 	this.charAdd = function(ch) {
 		insert(ch);
-		position++;
+		position += ch.length;
 	}
 
 	var historyCurrent = function(text, append) {
