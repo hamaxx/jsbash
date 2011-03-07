@@ -38,7 +38,7 @@ var Terminal = function(controller, line, out) {
 			$(window).trigger(press);
 		}
 	});
-
+	
 	$(window).keypress(function(e) {
 		if (!readOn) return true;
 		if (ctrl) return true;
@@ -48,21 +48,22 @@ var Terminal = function(controller, line, out) {
 
 		if(code == 13) {	//return
 			controller.returnPress();
-		} else if (code == 37) {	//left
+		} else if (code == 37 && keydown != 53) {	//left
 			controller.leftPress();
-		} else if (code == 39) {	//right
+		} else if (code == 39 && keydown != 222) {	//right
 			controller.rightPress();
-		} else if (code == 38) {	//up
+		} else if (code == 38 && keydown != 55) {	//up
 			controller.upPress();
-		} else if (code == 40) {	//down
+		} else if (code == 40 && keydown != 58) {	//down
 			controller.downPress();
 		} else if (code == 46 && keydown == 46) {	//delete
 			controller.deletePress();
 		} else if (code == 8) {	//backspace
 			controller.backspacePress();
-		} else if (code > 31 && code < 127){
-			controller.charAdd(code);
+		} else if ((code > 31 && code < 127)){		//(code > 186 && code < 223)
+			controller.charAdd(String.fromCharCode(code));
 		}
+		//alert(code + " " + keydown);
 	
 		pos = 8 * controller.cursorPosition();
 		input().css("background-position", pos + "px 0");

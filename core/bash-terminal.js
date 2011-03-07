@@ -69,8 +69,8 @@ var BashTerminal = function() {
 			position++;
 	}
 	
-	this.charAdd = function(code) {
-		insert(String.fromCharCode(code));
+	this.charAdd = function(ch) {
+		insert(ch);
 		position++;
 	}
 
