@@ -40,8 +40,8 @@ $(document).ready(function() {
 	currentFolder.push(topFolder);
 });
 
-function gotoFolder(path, folders, fromBin) {
-	if (path.charAt(0) == '/') {
+function openFolder(path, folders, fromBin) {
+	if (path.length > 0 && path.charAt(0) == '/') {
 		folders = [topFolder];
 		path = path.substring(1);
 	} else if(fromBin) {
@@ -69,6 +69,39 @@ function gotoFolder(path, folders, fromBin) {
 		}
 	}
 	return folders;
+}
+
+function openFilesFolder(path, fromBin) {
+	folder = path.substring(0, path.lastIndexOf("/") + 1);
+	
+	var f = new Array();
+	for (var i = 0; i < currentFolder.length; i++)
+		f[i] = currentFolder[i];
+		
+	f = openFolder(folder, f, fromBin);
+	if (!f) return false;
+	return f;
+}
+
+function openFile(path, fromBin) {
+	var f = openFilesFolder(path, fromBin);
+	
+	f = f.last().content[path.split("/").last()];
+
+	return f;
+}
+
+function touch(path) {
+	var folder = openFilesFolder(path);
+	if (!folder) return false;
+
+	var fn = path.substring(path.lastIndexOf("/") + 1);
+	if (!fn) return false;
+	
+	var file = new FF("-", fn, "");
+	folder.last().content[fn] = file;
+	
+	return file;
 }
 
 function pwd() {

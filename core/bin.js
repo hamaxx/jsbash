@@ -44,7 +44,7 @@ var bin = new FF("d", "bin", new function() {
 			return false;
 		}
 		
-		var tmp = gotoFolder(par[1], currentFolder);
+		var tmp = openFolder(par[1], currentFolder);
 		if (tmp)
 			currentFolder = tmp;
 		else
@@ -53,7 +53,7 @@ var bin = new FF("d", "bin", new function() {
 		return true;
 	});
 
-	this.touch = new FF("-", "touch", function(par, stream) {
+	this.touch = new FF("-", "touch", function(par, stream) {	//TODO rewrite
 		if (par.length < 2) return false;
 
 		currentFolder.last().content[par[1]] = new FF("-", par[1], "");
@@ -72,7 +72,7 @@ var bin = new FF("d", "bin", new function() {
 	this.cat = new FF("-", "cat", function(par, stream) {
 		if (par.length < 2) return false;
 
-		var fs = new FileStream(gotoFile(par[1])).read();
+		var fs = new FileStream(openFile(par[1])).read();
 		if (fs === undefined) return false;
 		
 		stream.out.write(fs);
