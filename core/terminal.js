@@ -110,7 +110,7 @@ var Terminal = function(controller, line, out) {
 		input().text(text);
 	}
 	
-	this.echo = function(str, prepend) {
+	this.write = function(str, prepend) {
 		if (!prepend) {
 			var l = $("<inputfield>" + str + "</inputfield>");	
 			out.append(l);
@@ -119,6 +119,10 @@ var Terminal = function(controller, line, out) {
 		}
 		
 		out.parent().attr({ scrollTop: out.parent().attr("scrollHeight") });
+	}
+	
+	this.read = function() {
+		return false;	//TODO
 	}
 	
 	this.submit = function() {

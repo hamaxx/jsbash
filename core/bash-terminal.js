@@ -12,7 +12,7 @@ var BashTerminal = function() {
 		terminal = ter;
 		historyArr.push("");
 		
-		terminal.echo("<prefix>user@jsbash:/$</prefix>", true);
+		terminal.write("<prefix>user@jsbash:/$</prefix>", true);
 	}
 	
 	this.cursorPosition = function() {
@@ -28,7 +28,7 @@ var BashTerminal = function() {
 			
 			terminal.submit();			
 			parseInput(historyCurrent());
-			terminal.echo("<prefix>user@jsbash:" + pwd() + "$</prefix>", true);
+			terminal.write("<prefix>user@jsbash:" + pwd() + "$</prefix>", true);
 			
 			if (historyArr.fromEnd(1) != historyArr.last()) {
 				historyArr.push("");

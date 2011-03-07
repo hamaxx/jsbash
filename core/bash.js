@@ -1,26 +1,46 @@
-var stdio = "";
+var Stream = function(instr, outstr, errstr) {
+	this.inp = new function() {
+		this.read = function() {
+			return instr.read();
+		}
+	}
+
+	this.out = new function() {
+		this.write = function(s) {
+			outstr.write(s);
+		}
+	}
+	
+	this.err = new function() {
+		this.write = function(s) {
+			errstr.write(s);
+		}
+	}
+}
+
+var pipe = new function() {
+	var queue = new Array();
+	this.read = function() {
+		if (queue.length > 0) {
+			return queue.shift();
+		} else {
+			return false;
+		}
+	}
+	
+	this.write = function(s) {
+		queue.push(s);
+	}
+}
+
 function parseInput(input) {
 	if (input.length) {
-		input = input.replace(/ {2,}/g,' ');
-	
-		var out = false;
-		input = input.split(">");
-		if (input.length > 1) {
-			out = input[1].match(/^\s?(.*)\s?$/)[1];
-		}
-		input = input[0].split(" ");
-	
-	
-		callFunc(input);
+		input = input.split(" ");
 		
-		if (out) {
-			bin.content.touch.content(["touch", out], stdio);
-			stdio = "";
-		}
+		var stream = new Stream(mainTerminal, mainTerminal, mainTerminal);
 		
-		mainTerminal.echo(stdio);
+		callFunc(input, stream);
 	}
-	stdio = "";
 }
 
 function gotoFile(path) {
@@ -36,12 +56,12 @@ function gotoFile(path) {
 	return f;
 }
 
-function callFunc(input) {
+function callFunc(input, stream) {
 	var f = gotoFile(input[0]);
 	if (f && $.isFunction(f.content)) {
-		if (!f.content(input)) bin.content.echo.content("error");
+		if (!f.content(input, stream)) stream.err.write("error");
 		saveDrive();
 	} else {
-		stdio += "command not found";
+		stream.err.write("command not found");
 	}
 }
