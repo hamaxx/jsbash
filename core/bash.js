@@ -76,12 +76,16 @@ function parseLine(input) {
 		ch = input.charAt(i);
 		var end = true;
 		
-		if (ch == "|") {
-			cmd.out = "pipe";
-		} else if (ch == ">") {
-			cmd.out = "file";
-		} else if (ch == "&") {
+		if (!quote) {
+			if (ch == "|") {
+				cmd.out = "pipe";
+			} else if (ch == ">") {
+				cmd.out = "file";
+			} else if (ch == "&") {
 		
+			} else {
+				end = false;
+			}
 		} else {
 			end = false;
 		}
