@@ -44,10 +44,6 @@ var bin = new FF("d", "bin", new function() {
 			return false;
 		}
 		
-		if(par[1].match(/^[a-zA-Z]/)) {
-			par[1] = "./" + par[1];
-		}
-
 		var tmp = gotoFolder(par[1], currentFolder);
 		if (tmp)
 			currentFolder = tmp;
@@ -64,31 +60,24 @@ var bin = new FF("d", "bin", new function() {
 
 		return true;
 	});
-/*
-	this.echo = new FF("-", "echo", function(par) {
+
+	this.echo = new FF("-", "echo", function(par, stream) {
 		if (par.length < 2) return false;
 		
-		if (par instanceof Array) {
-			stdio += par[1];
-		} else {
-			stdio += par;
-		}
+		stream.out.write(par[1]);
+		
 		return true;
 	});
-*/	
+
 	this.cat = new FF("-", "cat", function(par, stream) {
 		if (par.length < 2) return false;
 
-		if(par[1].match(/^[a-zA-Z]/)) {
-			par[1] = "./" + par[1];
-		}
+		var fs = new FileStream(gotoFile(par[1])).read();
+		if (fs === undefined) return false;
 		
-		var f = gotoFile(par[1]);
-		if (f && f.type == "-") {
-			stream.out.write(f.content);
-			return true;
-		}
-		return false;
+		stream.out.write(fs);
+		
+		return true;
 	});
 	
 });

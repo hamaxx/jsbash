@@ -18,9 +18,9 @@ var Stream = function(instr, outstr, errstr) {
 	}
 }
 
-var pipe = new function() {
+var Pipe = function() {
 	var queue = new Array();
-	this.read = function() {
+	this.read = new function() {
 		if (queue.length > 0) {
 			return queue.shift();
 		} else {
@@ -28,8 +28,26 @@ var pipe = new function() {
 		}
 	}
 	
-	this.write = function(s) {
+	this.write = new function(s) {
 		queue.push(s);
+	}
+}
+
+var FileStream = function(filePointer) {
+	this.read = function() {
+		if (filePointer) {
+			return filePointer.content;
+		} else {
+			return false
+		}
+	}
+	
+	this.write = function(s) {
+		if (filePointer) {
+			filePointer.content += s;
+		} else {
+			return false;
+		}
 	}
 }
 
@@ -43,12 +61,14 @@ function parseInput(input) {
 	}
 }
 
-function gotoFile(path) {
+function gotoFile(path, fromBin) {
+	folder = path.substring(0, path.lastIndexOf("/") + 1);
+
 	var f = new Array();
 	for (var i = 0; i < currentFolder.length; i++)
 		f[i] = currentFolder[i];
 		
-	f = gotoFolder(path, f, true);
+	f = gotoFolder(folder, f, fromBin);
 	if (!f) return false;
 	
 	f = f.last().content[path.split("/").last()];
@@ -57,7 +77,7 @@ function gotoFile(path) {
 }
 
 function callFunc(input, stream) {
-	var f = gotoFile(input[0]);
+	var f = gotoFile(input[0], true);
 	if (f && $.isFunction(f.content)) {
 		if (!f.content(input, stream)) stream.err.write("error");
 		saveDrive();

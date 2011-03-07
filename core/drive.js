@@ -3,7 +3,7 @@ var topFolder = null;
 
 function FF(type, fname, content) {
 	this.fname = fname;
-	this.content = content ? content : new Object();
+	this.content = content !== undefined ? content : new Object();
 	this.mod = 777;
 	this.type = type;
 	this.date = new Date();
@@ -40,11 +40,11 @@ $(document).ready(function() {
 	currentFolder.push(topFolder);
 });
 
-function gotoFolder(path, folders, ignoreError) {
+function gotoFolder(path, folders, fromBin) {
 	if (path.charAt(0) == '/') {
 		folders = [topFolder];
 		path = path.substring(1);
-	} else if(path.match(/^[a-zA-Z]/)) {
+	} else if(fromBin) {
 		folders = new Array(topFolder, topFolder.content["bin"]);
 	}
 
@@ -60,7 +60,7 @@ function gotoFolder(path, folders, ignoreError) {
 			} else if (c = folders.last().content[arr[i]]) {
 				if (c.type == "d") {
 					folders.push(c);
-				} else if (!ignoreError) {
+				} else {
 					return false;
 				}
 			} else {
