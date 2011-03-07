@@ -86,6 +86,7 @@ function openFilesFolder(path, fromBin) {
 function openFile(path, fromBin) {
 	var f = openFilesFolder(path, fromBin);
 	
+	if (!f) return false;
 	f = f.last().content[path.split("/").last()];
 
 	return f;
