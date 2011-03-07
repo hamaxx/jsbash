@@ -17,12 +17,6 @@ var Terminal = function(controller, line, out) {
 		onBlur();
 	});
 	
-	$(window).live("paste", function(e) {
-   	 alert(e.clipboardData); // [object Clipboard]
-	});
-	
-	$("terminal").bind('paste', function(e){ alert('pasting!') })
-	
 	$(window).keyup(function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);
 		if(code == 17) {
@@ -32,12 +26,15 @@ var Terminal = function(controller, line, out) {
 
 	$(window).keydown(function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);
+
 		keydown = code;
 		if(code == 17) {
 			ctrl = true;
 		}
 		
-		if (isChrome() && code in {37:"",38:"",39:"",40:"",46:"",8:""}) {
+		if (isChrome() && (code in {37:"",38:"",39:"",40:"",46:"",8:""}) || ctrl) {
+			if (code == 86) code = 118;
+			
 			var press = jQuery.Event("keypress");
 			press.ctrlKey = ctrl;
 			press.which = code;
