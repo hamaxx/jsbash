@@ -13,7 +13,7 @@ var bin = new FF("d", "bin", new function() {
 		return true;
 	});
 
-	this.ls = new FF("-", "ls", function(par, stream) {
+	this.ls = new FF("-", "ls", function(par, stream, next) {
 		var out = "";
 		
 		if (par.length > 1 && par[1] == "-l") {
@@ -28,7 +28,8 @@ var bin = new FF("d", "bin", new function() {
 			}
 		}
 		stream.out.write(out);
-		return true;
+		//alert(JSON.stringify(next));
+		next();
 	});
 
 	this.mkdir = new FF("-", "mkdir", function(par, stream) {
