@@ -26,16 +26,19 @@ var BashTerminal = function() {
 				historyArr.last(str);
 			} 
 			
-			terminal.submit();			
-			parseInput(historyCurrent());
-			terminal.write("<prefix>user@jsbash:" + pwd() + "$</prefix>", true);
+			terminal.submit();
+			var line = historyCurrent();
 			
 			if (historyArr.fromEnd(1) != historyArr.last()) {
 				historyArr.push("");
 			}
-		
+	
 			historyPos = 0;
-			historyCurrent("");
+			historyCurrent("");		
+			
+			parseInput(line, function() {
+				terminal.write("<prefix>user@jsbash:" + pwd() + "$</prefix>", true);	
+			});
 	}
 
 	this.deletePress = function() {

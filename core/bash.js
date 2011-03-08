@@ -115,7 +115,7 @@ function parseLine(input) {
 	return cmds;
 }
 
-var CallQueue = function() {
+var CallQueue = function(callback) {
 	var queue = new Array();
 	var _this = this;
 	
@@ -128,12 +128,13 @@ var CallQueue = function() {
 			var f = queue.shift();
 			callFunc(f.func, f.stream, _this.next);
 		} else {
+			callback();
 			saveDrive();
 		}
 	}
 } 
 
-function parseInput(input) {
+function parseInput(input, callback) {
 	
 	var getStream = function(str) {
 		if (str == "ter") {
@@ -157,7 +158,7 @@ function parseInput(input) {
 	if (input.length) {
 		input = parseLine(input);
 		
-		var callQueue = new CallQueue();
+		var callQueue = new CallQueue(callback);
 		
 		var pipe = new Pipe();
 		for (var i = 0; i < input.length; i++) {
@@ -167,6 +168,8 @@ function parseInput(input) {
 			callQueue.add(input[i].par, stream);
 		}
 		callQueue.next();
+	} else {
+		callback();
 	}
 }
 
