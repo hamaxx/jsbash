@@ -1,7 +1,7 @@
 var Stream = function(instr, outstr, errstr) {
 	this.inp = new function() {
-		this.read = function() {
-			return instr.read();
+		this.read = function(cb) {
+			instr.read(cb);
 		}
 	}
 
@@ -34,11 +34,11 @@ var Pipe = function() {
 }
 
 var FileStream = function(filePointer) {
-	this.read = function() {
+	this.read = function(callback) {
 		if (filePointer) {
-			return filePointer.content;
+			callback(filePointer.content);
 		} else {
-			return false
+			callback(false);
 		}
 	}
 	

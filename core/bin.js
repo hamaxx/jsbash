@@ -68,12 +68,12 @@ var bin = new FF("d", "bin", new function() {
 	this.cat = new FF("-", "cat", function(par, stream, next) {
 		if (par.length < 2) return next();
 
-		var fs = new FileStream(openFile(par[1])).read();
-		if (fs !== undefined) {
-			stream.out.write(fs);
-		}
-		
-		next();
+		new FileStream(openFile(par[1])).read(function(fs) {
+			if (fs !== undefined) {
+				stream.out.write(fs);
+			}
+			next();		
+		});
 	});
 	
 });
