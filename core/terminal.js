@@ -134,8 +134,8 @@ var Terminal = function(controller, line, out) {
 		out.parent().attr({ scrollTop: out.parent().attr("scrollHeight") });
 	}
 	
-	this.read = function() {
-		return false;	//TODO
+	this.read = function(readCallback) {
+		readCallback("");	//TODO
 	}
 	
 	this.submit = function() {

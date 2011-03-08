@@ -1,7 +1,7 @@
 var Stream = function(instr, outstr, errstr) {
 	this.inp = new function() {
-		this.read = function() {
-			return instr.read();
+		this.read = function(cb) {
+			instr.read(cb);
 		}
 	}
 
@@ -34,11 +34,11 @@ var Pipe = function() {
 }
 
 var FileStream = function(filePointer) {
-	this.read = function() {
+	this.read = function(callback) {
 		if (filePointer) {
-			return filePointer.content;
+			callback(filePointer.content);
 		} else {
-			return false
+			callback(false);
 		}
 	}
 	
@@ -115,6 +115,24 @@ function parseLine(input) {
 	return cmds;
 }
 
+var CallQueue = function() {
+	var queue = new Array();
+	var _this = this;
+	
+	this.add = function(func, stream) {
+		queue.push({"func" : func, "stream" : stream});
+	}
+	
+	this.next = function() {
+		if (queue.length > 0) {
+			var f = queue.shift();
+			callFunc(f.func, f.stream, _this.next);
+		} else {
+			saveDrive();
+		}
+	}
+} 
+
 function parseInput(input) {
 	
 	var getStream = function(str) {
@@ -139,21 +157,23 @@ function parseInput(input) {
 	if (input.length) {
 		input = parseLine(input);
 		
+		var callQueue = new CallQueue();
+		
 		var pipe = new Pipe();
 		for (var i = 0; i < input.length; i++) {
 			if (input[i].inp == "file") break;
 
 			var stream = new Stream(getStream(input[i].inp), getStream(input[i].out), mainTerminal);
-			callFunc(input[i].par, stream);
+			callQueue.add(input[i].par, stream);
 		}
+		callQueue.next();
 	}
 }
 
-function callFunc(input, stream) {
+function callFunc(input, stream, next) {
 	var f = openFile(input[0], true);
 	if (f && $.isFunction(f.content)) {
-		if (!f.content(input, stream)) stream.err.write("error");
-		saveDrive();
+		f.content(input, stream, next);
 	} else {
 		stream.err.write(input[0] + ": command not found");
 	}
