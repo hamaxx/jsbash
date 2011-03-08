@@ -26,19 +26,19 @@ FF.ffMod = function (ff) {
 	return ff.type + "rwxrwxrwx";
 }
 
-$(document).ready(function() {
-	try {
-		var t = false;
-		if (html5_storage())
-			t = JSON.parse(localStorage.getItem("drive"));
-		if (!t) throw "err"; 
-		topFolder = t;
-	} catch(e) {
-		topFolder = new FF("d", "");
-	}
-	
-	currentFolder.push(topFolder);
-});
+
+try {
+	var t = false;
+	if (html5_storage())
+		t = JSON.parse(localStorage.getItem("drive"));
+	if (!t) throw "err"; 
+	topFolder = t;
+} catch(e) {
+	topFolder = new FF("d", "");
+}
+
+currentFolder.push(topFolder);
+
 
 function openFolder(path, folders, fromBin) {
 	if (path.length > 0 && path.charAt(0) == '/') {

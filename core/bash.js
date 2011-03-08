@@ -179,5 +179,6 @@ function callFunc(input, stream, next) {
 		f.content(input, stream, next);
 	} else {
 		stream.err.write(input[0] + ": command not found");
+		next();
 	}
 }
