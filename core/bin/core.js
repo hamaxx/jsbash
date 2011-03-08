@@ -1,4 +1,4 @@
-bin.content.help = new FF("-", "help", function(par, stream, next) {
+addToBin("help", function(par, stream, next) {
 	var out = "";
 	for (var f in bin.content) {
 		out += "<div>" + f + "</div>"
@@ -7,12 +7,12 @@ bin.content.help = new FF("-", "help", function(par, stream, next) {
 	next();
 });
 
-bin.content.pwd = new FF("-", "pwd", function(par, stream, next) {
+addToBin("pwd", function(par, stream, next) {
 	stream.out.write(pwd());
 	next();
 });
 
-bin.content.ls = new FF("-", "ls", function(par, stream, next) {
+addToBin("ls", function(par, stream, next) {
 	var out = "";
 	
 	if (par.length > 1 && par[1] == "-l") {
@@ -30,7 +30,7 @@ bin.content.ls = new FF("-", "ls", function(par, stream, next) {
 	next();
 });
 
-bin.content.mkdir = new FF("-", "mkdir", function(par, stream, next) {
+addToBin("mkdir", function(par, stream, next) {
 	if (par.length < 2) return next();
 
 	currentFolder.last().content[par[1]] = new FF("d", par[1]);
@@ -38,7 +38,7 @@ bin.content.mkdir = new FF("-", "mkdir", function(par, stream, next) {
 	next();
 });
 
-bin.content.cd = new FF("-", "cd", function(par, stream, next) {
+addToBin("cd", function(par, stream, next) {
 	if (par.length < 2) return next();
 	
 	var tmp = openFolder(par[1], currentFolder);
@@ -48,7 +48,7 @@ bin.content.cd = new FF("-", "cd", function(par, stream, next) {
 	next();
 });
 
-bin.content.touch = new FF("-", "touch", function(par, stream, next) {	//TODO rewrite
+addToBin("touch", function(par, stream, next) {	//TODO rewrite
 	if (par.length < 2) return next();
 
 	currentFolder.last().content[par[1]] = new FF("-", par[1], "");
@@ -56,7 +56,7 @@ bin.content.touch = new FF("-", "touch", function(par, stream, next) {	//TODO re
 	next();
 });
 
-bin.content.echo = new FF("-", "echo", function(par, stream, next) {
+addToBin("echo", function(par, stream, next) {
 	if (par.length < 2) return next();
 	
 	stream.out.write(par[1]);
@@ -64,7 +64,7 @@ bin.content.echo = new FF("-", "echo", function(par, stream, next) {
 	next();
 });
 
-bin.content.cat = new FF("-", "cat", function(par, stream, next) {
+addToBin("cat", function(par, stream, next) {
 	if (par.length < 2) return next();
 
 	new FileStream(openFile(par[1])).read(function(fs) {

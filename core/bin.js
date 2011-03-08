@@ -16,3 +16,7 @@ $(document).ready(function() {
 		thebin.content[f] = bin.content[f];
 	}	
 });
+
+function addToBin(na, func) {
+	bin.content[na] = new FF("-", na, func);
+}
