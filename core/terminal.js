@@ -32,7 +32,7 @@ var Terminal = function(controller, line, out) {
 			ctrl = true;
 		}
 		
-		if (isChrome() && (code in {37:"",38:"",39:"",40:"",46:"",8:""}) || ctrl) {
+		if (isChrome() && (code in {37:"",38:"",39:"",40:"",46:"",8:""} || ctrl)) {
 			if (code == 86) code = 118;
 			
 			var press = jQuery.Event("keypress");

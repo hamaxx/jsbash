@@ -137,24 +137,15 @@ function parseInput(input) {
 	}
 
 	if (input.length) {
-		//alert(JSON.stringify(parseLine(input)));
-	
 		input = parseLine(input);
 		
 		var pipe = new Pipe();
 		for (var i = 0; i < input.length; i++) {
 			if (input[i].inp == "file") break;
-			
-			//alert(input[i].out);
-			
+
 			var stream = new Stream(getStream(input[i].inp), getStream(input[i].out), mainTerminal);
 			callFunc(input[i].par, stream);
 		}
-				
-		
-	//	var stream = new Stream(mainTerminal, mainTerminal, mainTerminal);
-		
-	//	callFunc(input, stream);
 	}
 }
 
