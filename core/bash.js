@@ -38,7 +38,7 @@ var FileStream = function(filePointer) {
 		if (filePointer) {
 			callback(filePointer.content);
 		} else {
-			callback(false);
+			callback();
 		}
 	}
 	
@@ -124,6 +124,7 @@ var CallQueue = function(callback) {
 	}
 	
 	this.next = function() {
+		mainTerminal.start();
 		if (queue.length > 0) {
 			var f = queue.shift();
 			callFunc(f.func, f.stream, _this.next);

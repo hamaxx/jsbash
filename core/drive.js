@@ -88,7 +88,9 @@ function openFile(path, fromBin) {
 	
 	if (!f) return false;
 	f = f.last().content[path.split("/").last()];
-
+	
+	if (f.type != "-") return false;
+	
 	return f;
 }
 
@@ -98,6 +100,8 @@ function touch(path) {
 
 	var fn = path.substring(path.lastIndexOf("/") + 1);
 	if (!fn) return false;
+	
+	if (fn in folder.last().content) return false;
 	
 	var file = new FF("-", fn, "");
 	folder.last().content[fn] = file;

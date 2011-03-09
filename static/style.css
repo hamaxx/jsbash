@@ -4,6 +4,12 @@ body {
 	margin: 0;
 }
 
+pre {
+	font-size: 14px;
+	font-family: 'Courier New', Courier, monospace;
+	margin: 0;
+}
+
 header {
 	display: block;
 	width: 700px;
@@ -112,4 +118,9 @@ input {
 	border-bottom: 2px solid #444;
 	border-right: 2px solid #444;
 	cursor: pointer;
+}
+
+.appMenu {
+	margin-top: 20px;
+	text-align: center;
 }

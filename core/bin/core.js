@@ -51,7 +51,7 @@ addToBin("cd", function(par, stream, next) {
 addToBin("touch", function(par, stream, next) {	//TODO rewrite
 	if (par.length < 2) return next();
 
-	currentFolder.last().content[par[1]] = new FF("-", par[1], "");
+	touch(par[1]);
 
 	next();
 });
@@ -69,7 +69,10 @@ addToBin("cat", function(par, stream, next) {
 
 	new FileStream(openFile(par[1])).read(function(fs) {
 		if (fs !== undefined) {
+			fs = "<pre>" + fs + "</pre>";
 			stream.out.write(fs);
+		} else {
+			stream.err.write("file not found");
 		}
 		next();		
 	});
