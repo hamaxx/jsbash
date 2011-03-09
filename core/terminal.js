@@ -49,11 +49,9 @@ var Terminal = function(controller, line, out) {
 		var code = (e.keyCode ? e.keyCode : e.which);
 
 		if (ctrl) {
-			if (code == 118) {	//v
-				var paste = prompt("Paste here","");
-				if (paste) controller.charAdd(paste);
-				code = -1;
-				ctrl = false;
+			if (code == 118) {
+				pasteHack();	//trololo
+				return true;
 			} else {
 				return true;
 			}
@@ -77,11 +75,33 @@ var Terminal = function(controller, line, out) {
 			controller.charAdd(String.fromCharCode(code));
 		}
 		
-		pos = 8 * controller.cursorPosition();
-		input().css("background-position", pos + "px 0");
+		moveCursor();
 	
 		return false;
 	});
+	
+	var moveCursor = function() {
+		pos = 8 * controller.cursorPosition();
+		input().css("background-position", pos + "px 0");
+	}
+	
+	var pasteHack = function() {
+		mainTerminal.stop();
+		
+		var ta = $("<textarea id='pasteHack'></textarea>");
+		ta.css("position", "absolute");
+		ta.css("top", "-500px");
+		$("body").append(ta);
+		ta.focus();
+		
+		setTimeout(function() {
+			var txt = ta.val();
+			ta.remove();
+			controller.charAdd(txt);
+			mainTerminal.start();
+			moveCursor();
+		}, 1);
+	}
 	
 	var onFocus = function() {
 		showCursor();
