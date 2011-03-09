@@ -50,11 +50,9 @@ var Terminal = function(controller, line, out) {
 
 		if (ctrl) {
 			if (code == 118) {
-				pasteHack();	//trololo
-				return true;
-			} else {
-				return true;
+				pasteHack();	//trololo	
 			}
+			return true;
 		}
 
 		if(code == 13) {							//return

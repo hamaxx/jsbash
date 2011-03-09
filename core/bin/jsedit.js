@@ -21,7 +21,7 @@ addToBin("jsedit", function(par, stream, next) {
 	
 	var menu = $('<div class="appMenu"></div>');
 	var save = $('<input type="button" id="jseditSave" value="Save" />');
-	var cancle = $('<input type="button" id="jseditCancle"value="Cancle" />');
+	var cancle = $('<input type="button" id="jseditCancel"value="Cancel" />');
 	menu.append(save).append(cancle);
 	
 	back.append(text).append(menu);
@@ -38,7 +38,7 @@ addToBin("jsedit", function(par, stream, next) {
 		next();
 	});
 	
-	$("#jseditCancle, #floatBackground").click(function(event) {
+	$("#jseditCancel, #floatBackground").click(function(event) {
 		back.remove();
 		next();
 	});	
