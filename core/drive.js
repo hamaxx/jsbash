@@ -47,7 +47,7 @@ function openFolder(path, folders, fromBin) {
 	} else if(fromBin) {
 		folders = new Array(topFolder, topFolder.content["bin"]);
 	}
-
+	
 	if (path) {
 		var arr = path.split("/");
 		for (var i = 0; i < arr.length; i++) {
@@ -72,7 +72,7 @@ function openFolder(path, folders, fromBin) {
 }
 
 function openFilesFolder(path, fromBin) {
-	folder = path.substring(0, path.lastIndexOf("/") + 1);
+	var folder = path.substring(0, path.lastIndexOf("/"));
 	
 	var f = new Array();
 	for (var i = 0; i < currentFolder.length; i++)
@@ -80,6 +80,7 @@ function openFilesFolder(path, fromBin) {
 		
 	f = openFolder(folder, f, fromBin);
 	if (!f) return false;
+	
 	return f;
 }
 
@@ -101,7 +102,7 @@ function touch(path) {
 	var fn = path.substring(path.lastIndexOf("/") + 1);
 	if (!fn) return false;
 	
-	if (fn in folder.last().content) return false;
+	//if (fn in folder.last().content) return false;
 	
 	var file = new FF("-", fn, "");
 	folder.last().content[fn] = file;
