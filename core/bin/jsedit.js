@@ -4,7 +4,7 @@ addToBin("jsedit", function(par, stream, next) {
 	if (par.length < 2) return next();
 
 	var file = openFile(par[1]);
-	var content = "haha";
+	var content = "";
 	if (!file) {
 		if (!touch(par[1])) {
 			stream.out.write("error while opening file");

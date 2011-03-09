@@ -89,7 +89,7 @@ function openFile(path, fromBin) {
 	if (!f) return false;
 	f = f.last().content[path.split("/").last()];
 	
-	if (f.type != "-") return false;
+	if (!f || f.type != "-") return false;
 	
 	return f;
 }
