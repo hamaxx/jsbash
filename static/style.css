@@ -32,6 +32,7 @@ terminal {
 	background: #222;
 	color: #eee;
 	padding: 5px;
+	overflow: auto;
 }
 
 #frameTerminal {
@@ -43,7 +44,6 @@ terminal {
 	height: 500px;
 	margin: 0 auto 20px auto;
 	display: block;
-	overflow: auto;
 	padding: 0;
 }
 
